@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 public class CircuitTest extends Application{
     public Rectangle[] breadboardHoles = new Rectangle[325];
@@ -32,7 +33,11 @@ public class CircuitTest extends Application{
     
     ArrayList <Rectangle> createdChipList = new ArrayList<>();
     ArrayList <ImageView> chipList = new ArrayList<>();
+    
     ArrayList <createChip.createAndChip> andChipList = new ArrayList<>();
+    ArrayList <createChip.createNandChip> nandChipList = new ArrayList<>();
+    ArrayList <createChip.createOrChip> orChipList = new ArrayList<>();
+    
     ArrayList <Line> createWireList = new ArrayList<>();
     
     ArrayList <stateTracker.columnCreationGroupOne> columnStatesGroupOne = new ArrayList<>();
@@ -54,9 +59,17 @@ public class CircuitTest extends Application{
     
     
     
-    createChip chi = new createChip();
-    createChip.createAndChip andChipSetup = chi.new createAndChip();
+    createChip and = new createChip();
+    createChip.createAndChip andChipSetup = and.new createAndChip();
     ImageView andChip = andChipSetup.createShape();
+    
+    createChip nand= new createChip();
+    createChip.createNandChip nandChipSetup = nand.new createNandChip();
+    ImageView nandChip = nandChipSetup.createShape();
+    
+    createChip or = new createChip();
+    createChip.createOrChip orChipSetup = or.new createOrChip();
+    ImageView orChip = orChipSetup.createShape();
     
     
     
@@ -69,19 +82,35 @@ public class CircuitTest extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         BorderPane pane = new BorderPane();
-        pane.getChildren().add(andChip);
-        
-        Button view = new Button("Switch to Live View");
-        pane.setTop(view);
+        pane.getChildren().addAll(andChip, nandChip, orChip);
+
+        Image pointView = new Image("file:images/point.png");
+        Image wireView = new Image("file:images/wire.png");
+        ImageView view = new ImageView();
+        view.setImage(pointView);
+        view.setX(25);
+        view.setY(10);
+        pane.getChildren().add(view);
         view.setOnMouseClicked(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){
                 if(isViewToggled == false){
                     isViewToggled = true;
-                    view.setText("Switch to Points View");
+                    System.out.println("State True");
+                    view.setImage(wireView);
+                    
+                    for(int i = 0; i < createWireList.size(); i++){
+                        createWireList.get(i).setStroke(Color.BLUE);
+                    }
                 }
                 else{
                     isViewToggled = false;
-                    view.setText("Switch to Live View");
+                    System.out.println("State False");
+                    view.setImage(pointView);
+                    
+                    for(int i = 0; i < createWireList.size(); i++){
+                        createWireList.get(i).setStroke(Color.rgb(0, 0, 0, 0));
+                    }
+                    
                 }
             } 
         });
@@ -158,13 +187,56 @@ public class CircuitTest extends Application{
                         handled.pickingBreadboardHoles(currentSquare, isViewToggled);
                     
 // if point view is activated this draws wire by selecting holes only -- needs to be switched where you do not see the wires                 
-                        if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false){
-                            handled.drawingWires();
-                            currentLine = handled.returnLine();
-                            createWireList.add(currentLine);
-                            handled.addToListOfWires(currentLine);
-                            pane.getChildren().add(currentLine);
+                        if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false && firstClick == true){
+                            liveWire = handled.returnDrawnLiveWire();
+                            movable = true;
+                            firstClick = false;
+                            startX = liveWire.getStartX();
+                            startY = liveWire.getStartY();
+                            createWireList.add(liveWire);
+                            handled.addToListOfWires(liveWire);
+                            pane.getChildren().add(liveWire);  
+                            
+                            toBeCompared[0] = startX;
+                            toBeCompared[1] = startY;
+                            System.out.println(toBeCompared[1]);
+
+                            pane.setOnMouseMoved(new EventHandler<MouseEvent>(){
+                                public void handle(MouseEvent e){
+                                if(movable == true){
+                                    liveWire.setEndX(e.getSceneX());
+                                    liveWire.setEndY(e.getSceneY() - 2);
+                                }
+                            }});
                         }
+                        else if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false && firstClick == false){    
+                            movable = false;
+                            firstClick = true;
+                            endX = handled.returnEndX() + 5;
+                            endY = handled.returnEndY() + 5;
+                            liveWire.setEndX(endX);
+                            liveWire.setEndY(endY);
+                            
+                            toBeCompared[2] = endX;
+                            toBeCompared[3] = endY;
+                            
+                            System.out.println(toBeCompared[3]);
+                            
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
+                            tracking.calculateState();
+                            
+                            power = tracking.returnUpdatedPowerRow();
+                            columnStatesGroupOne = tracking.returnGroupOne();
+                            ground = tracking.returnGround();
+                            
+                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                            
+                       }
 //  if wire view is Toggled this begins to drawn wires in real time            
                         else if(e.getButton() == MouseButton.PRIMARY && isViewToggled == true && firstClick == true){
                             liveWire = handled.returnDrawnLiveWire();
@@ -210,10 +282,11 @@ public class CircuitTest extends Application{
                             columnStatesGroupOne = tracking.returnGroupOne();
                             ground = tracking.returnGround();
                             
-                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList);
-                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
-                            for(int i = 0; i < 65; i++){
-                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupOne.get(i).getState());
+                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
                             
                        }
@@ -239,13 +312,56 @@ public class CircuitTest extends Application{
                         handled.pickingBreadboardHoles(currentSquare, isViewToggled);
                     
 // if point view is activated this draws wire by selecting holes only -- needs to be switched where you do not see the wires                 
-                        if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false){
-                            handled.drawingWires();
-                            currentLine = handled.returnLine();
-                            createWireList.add(currentLine);
-                            handled.addToListOfWires(currentLine);
-                            pane.getChildren().add(currentLine);
+                        if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false && firstClick == true){
+                            liveWire = handled.returnDrawnLiveWire();
+                            movable = true;
+                            firstClick = false;
+                            startX = liveWire.getStartX();
+                            startY = liveWire.getStartY();
+                            createWireList.add(liveWire);
+                            handled.addToListOfWires(liveWire);
+                            pane.getChildren().add(liveWire);  
+                            
+                            toBeCompared[0] = startX;
+                            toBeCompared[1] = startY;
+                            System.out.println(toBeCompared[1]);
+
+                            pane.setOnMouseMoved(new EventHandler<MouseEvent>(){
+                                public void handle(MouseEvent e){
+                                if(movable == true){
+                                    liveWire.setEndX(e.getSceneX());
+                                    liveWire.setEndY(e.getSceneY() - 2);
+                                }
+                            }});
                         }
+                        else if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false && firstClick == false){    
+                            movable = false;
+                            firstClick = true;
+                            endX = handled.returnEndX() + 5;
+                            endY = handled.returnEndY() + 5;
+                            liveWire.setEndX(endX);
+                            liveWire.setEndY(endY);
+                            
+                            toBeCompared[2] = endX;
+                            toBeCompared[3] = endY;
+                            
+                            System.out.println(toBeCompared[3]);
+                            
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
+                            tracking.calculateState();
+                            
+                            power = tracking.returnUpdatedPowerRow();
+                            columnStatesGroupOne = tracking.returnGroupOne();
+                            ground = tracking.returnGround();
+                            
+                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                            
+                       }
 //  if wire view is Toggled this begins to drawn wires in real time            
                         else if(e.getButton() == MouseButton.PRIMARY && isViewToggled == true && firstClick == true){
                             liveWire = handled.returnDrawnLiveWire();
@@ -291,11 +407,13 @@ public class CircuitTest extends Application{
                             columnStatesGroupOne = tracking.returnGroupOne();
                             ground = tracking.returnGround();
                             
-                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList);
-                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
-                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupOne.get(i).getState());
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
+                            
                        }
                     }
                 }
@@ -322,13 +440,56 @@ public class CircuitTest extends Application{
                         handled.pickingBreadboardHoles(currentSquare, isViewToggled);
                     
 // if point view is activated this draws wire by selecting holes only -- needs to be switched where you do not see the wires                 
-                        if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false){
-                            handled.drawingWires();
-                            currentLine = handled.returnLine();
-                            createWireList.add(currentLine);
-                            handled.addToListOfWires(currentLine);
-                            pane.getChildren().add(currentLine);
+                        if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false && firstClick == true){
+                            liveWire = handled.returnDrawnLiveWire();
+                            movable = true;
+                            firstClick = false;
+                            startX = liveWire.getStartX();
+                            startY = liveWire.getStartY();
+                            createWireList.add(liveWire);
+                            handled.addToListOfWires(liveWire);
+                            pane.getChildren().add(liveWire);  
+                            
+                            toBeCompared[0] = startX;
+                            toBeCompared[1] = startY;
+                            System.out.println(toBeCompared[1]);
+
+                            pane.setOnMouseMoved(new EventHandler<MouseEvent>(){
+                                public void handle(MouseEvent e){
+                                if(movable == true){
+                                    liveWire.setEndX(e.getSceneX());
+                                    liveWire.setEndY(e.getSceneY() - 2);
+                                }
+                            }});
                         }
+                        else if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false && firstClick == false){    
+                            movable = false;
+                            firstClick = true;
+                            endX = handled.returnEndX() + 5;
+                            endY = handled.returnEndY() + 5;
+                            liveWire.setEndX(endX);
+                            liveWire.setEndY(endY);
+                            
+                            toBeCompared[2] = endX;
+                            toBeCompared[3] = endY;
+                            
+                            System.out.println(toBeCompared[3]);
+                            
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
+                            tracking.calculateState();
+                            
+                            power = tracking.returnUpdatedPowerRow();
+                            columnStatesGroupOne = tracking.returnGroupOne();
+                            ground = tracking.returnGround();
+                            
+                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                            
+                       }
 //  if wire view is Toggled this begins to drawn wires in real time            
                         else if(e.getButton() == MouseButton.PRIMARY && isViewToggled == true && firstClick == true){
                             liveWire = handled.returnDrawnLiveWire();
@@ -374,11 +535,13 @@ public class CircuitTest extends Application{
                             columnStatesGroupOne = tracking.returnGroupOne();
                             ground = tracking.returnGround();
                             
-                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList);
-                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
-                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupOne.get(i).getState());
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
+                            
                        }
                     }
                 }
@@ -402,13 +565,56 @@ public class CircuitTest extends Application{
                         handled.pickingBreadboardHoles(currentSquare, isViewToggled);
                     
 // if point view is activated this draws wire by selecting holes only -- needs to be switched where you do not see the wires                 
-                        if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false){
-                            handled.drawingWires();
-                            currentLine = handled.returnLine();
-                            createWireList.add(currentLine);
-                            handled.addToListOfWires(currentLine);
-                            pane.getChildren().add(currentLine);
+                        if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false && firstClick == true){
+                            liveWire = handled.returnDrawnLiveWire();
+                            movable = true;
+                            firstClick = false;
+                            startX = liveWire.getStartX();
+                            startY = liveWire.getStartY();
+                            createWireList.add(liveWire);
+                            handled.addToListOfWires(liveWire);
+                            pane.getChildren().add(liveWire);  
+                            
+                            toBeCompared[0] = startX;
+                            toBeCompared[1] = startY;
+                            System.out.println(toBeCompared[1]);
+
+                            pane.setOnMouseMoved(new EventHandler<MouseEvent>(){
+                                public void handle(MouseEvent e){
+                                if(movable == true){
+                                    liveWire.setEndX(e.getSceneX());
+                                    liveWire.setEndY(e.getSceneY() - 2);
+                                }
+                            }});
                         }
+                        else if(e.getButton() == MouseButton.PRIMARY && isViewToggled == false && firstClick == false){    
+                            movable = false;
+                            firstClick = true;
+                            endX = handled.returnEndX() + 5;
+                            endY = handled.returnEndY() + 5;
+                            liveWire.setEndX(endX);
+                            liveWire.setEndY(endY);
+                            
+                            toBeCompared[2] = endX;
+                            toBeCompared[3] = endY;
+                            
+                            System.out.println(toBeCompared[3]);
+                            
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
+                            tracking.calculateState();
+                            
+                            power = tracking.returnUpdatedPowerRow();
+                            columnStatesGroupOne = tracking.returnGroupOne();
+                            ground = tracking.returnGround();
+                            
+                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                            
+                       }
 //  if wire view is Toggled this begins to drawn wires in real time            
                         else if(e.getButton() == MouseButton.PRIMARY && isViewToggled == true && firstClick == true){
                             liveWire = handled.returnDrawnLiveWire();
@@ -454,62 +660,20 @@ public class CircuitTest extends Application{
                             columnStatesGroupOne = tracking.returnGroupOne();
                             ground = tracking.returnGround();
                             
-                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList);
-                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
-                            for(int i = 0; i < 65; i++){
-                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupOne.get(i).getState());
+                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
+                            
                        }
                     }
                 }
             });
         }        
-        
-        
-//// creates a new chip on press & also creates a way to delete chips created        
-//        setChip.setOnMousePressed(new EventHandler<MouseEvent>(){
-//            public void handle(MouseEvent e){    
-//                if(e.getButton() == MouseButton.PRIMARY){
-//                    chip = chips.createChip();
-//                    createdChipList.add(chip);
-//                    int i = createdChipList.size() - 1;
-//                    
-//                    createdChipList.get(i).setOnMouseEntered(new EventHandler<MouseEvent>(){
-//                        public void handle(MouseEvent e){    
-//                            createdChipList.get(i).setFill(Color.CADETBLUE);
-//                            }
-//                    });
-//                    createdChipList.get(i).setOnMouseExited(new EventHandler<MouseEvent>(){
-//                        public void handle(MouseEvent e){    
-//                            createdChipList.get(i).setFill(Color.BLACK);
-//                            }
-//                    });
-//                    
-//                    // this is deleting the chip
-//                    createdChipList.get(i).setOnMouseClicked(new EventHandler<MouseEvent>(){
-//                       public void handle(MouseEvent e){
-//                           if(e.getButton() == MouseButton.SECONDARY){
-//                              pane.getChildren().remove(createdChipList.get(i));    
-//                           }
-//                       } 
-//                    });
-//                    
-//                    createdChipList.get(i).setOnMouseReleased(new EventHandler<MouseEvent>(){
-//                       public void handle(MouseEvent e){
-//                           createdChipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
-//                           createdChipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
-//                           
-//                           trackingChip.getInformation(createdChipList, columnStatesGroupOne, columnStatesGroupTwo);
-//                       } 
-//                    });
-//                    
-//                    handled.addToListOfChips(chip);
-//                    pane.getChildren().add(chip);
-//                }
-//            }
-//        });
-        
-// creates a new and chip on press & also creates a way to delete chips created        
+
+// AND        
         andChip.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
                 if(e.getButton() == MouseButton.PRIMARY){
@@ -537,7 +701,7 @@ public class CircuitTest extends Application{
                            chipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
-                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList);
+                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupOne.get(i).getState());
@@ -549,15 +713,6 @@ public class CircuitTest extends Application{
             }
         });
         
-//        setChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
-//            public void handle(MouseEvent e){  
-//                if(e.getButton() == MouseButton.PRIMARY){
-//                    chip.setX(e.getSceneX());
-//                    chip.setY(e.getSceneY());
-//                }
-//            }
-//        });
-        
         andChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){  
                 if(e.getButton() == MouseButton.PRIMARY){
@@ -566,25 +721,14 @@ public class CircuitTest extends Application{
                 }
             }
         });
-        
-//        setChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
-//            public void handle(MouseEvent e){
-//                if(e.getButton() == MouseButton.PRIMARY){
-//                    chip.setX(handled.lineUpChipX((int)e.getSceneX()));
-//                    chip.setY(handled.lineUpChipY((int)e.getSceneY())); 
-//                    
-//                    trackingChip.getInformation(createdChipList, columnStatesGroupOne, columnStatesGroupTwo);
-//                }
-//            }
-//        });
-        
+
         andChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){
                 if(e.getButton() == MouseButton.PRIMARY){
                     displayCurrentChip.setX(handled.lineUpChipX((int)e.getSceneX()));
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
-                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList);
+                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupOne.get(i).getState());
@@ -594,7 +738,135 @@ public class CircuitTest extends Application{
         });
         
         
+// NAND  
+        nandChip.setOnMousePressed(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){    
+                if(e.getButton() == MouseButton.PRIMARY){
+                    createChip nand = new createChip();
+                    createChip.createNandChip createNandChip = nand.new createNandChip();
+                    
+                    displayCurrentChip = createNandChip.createShape();
+                    pane.getChildren().add(displayCurrentChip);
+                    
+                    nandChipList.add(createNandChip);
+                    chipList.add(displayCurrentChip);
+                    int i = chipList.size() - 1;
+                    
+                    chipList.get(i).setOnMouseClicked(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           if(e.getButton() == MouseButton.SECONDARY){
+                              pane.getChildren().remove(chipList.get(i)); 
+                              andChipList.remove(i);
+                           }
+                       } 
+                    });
+                    
+                    chipList.get(i).setOnMouseReleased(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           chipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
+                           chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
+                           
+                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                           columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                           columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                       } 
+                    });
+                }
+            }
+        });
         
+        nandChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){  
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(e.getSceneX());
+                    displayCurrentChip.setY(e.getSceneY());
+                }
+            }
+        });
+
+        nandChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(handled.lineUpChipX((int)e.getSceneX()));
+                    displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
+                    
+                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                }
+            }
+        });
+        
+// OR        
+        orChip.setOnMousePressed(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){    
+                if(e.getButton() == MouseButton.PRIMARY){
+                    createChip or = new createChip();
+                    createChip.createOrChip createOrChip = or.new createOrChip();
+                    
+                    displayCurrentChip = createOrChip.createShape();
+                    pane.getChildren().add(displayCurrentChip);
+                    
+                    orChipList.add(createOrChip);
+                    chipList.add(displayCurrentChip);
+                    int i = chipList.size() - 1;
+                    
+                    chipList.get(i).setOnMouseClicked(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           if(e.getButton() == MouseButton.SECONDARY){
+                              pane.getChildren().remove(chipList.get(i)); 
+                              andChipList.remove(i);
+                           }
+                       } 
+                    });
+                    
+                    chipList.get(i).setOnMouseReleased(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           chipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
+                           chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
+                           
+                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                           columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                           columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                       } 
+                    });
+                }
+            }
+        });
+        
+        orChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){  
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(e.getSceneX());
+                    displayCurrentChip.setY(e.getSceneY());
+                }
+            }
+        });
+
+        orChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(handled.lineUpChipX((int)e.getSceneX()));
+                    displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
+                    
+                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                }
+            }
+        });        
         
         Scene scene = new Scene(pane, 1024, 800, true);
         primaryStage.setScene(scene);

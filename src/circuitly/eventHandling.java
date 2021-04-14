@@ -33,22 +33,22 @@ public class eventHandling {
                 if(timesClicked == 1){
                     first = drawn.returnFirst();
                     
-                    if(isViewToggled == true){
+//                    if(isViewToggled == true){
                         
                         startX = first[0];
                         startY = first[1];
-                        liveWire = drawLine(startX, startY, startX, startY);
-                    }
+                        liveWire = drawLine(startX, startY, startX, startY, isViewToggled);
+//                    }
                 }
                 else if(timesClicked == 2){
                     drawn.clickedHole(breadboardHoles, timesClicked);
                     second = drawn.returnSecond();
                     
-                    if(isViewToggled == true){
+//                    if(isViewToggled == true){
                         endX = second[0];
                         endY = second[1];
                         timesClicked = 0;
-                    }
+//                    }
                 }
                 if(timesClicked == 2){
                     drawn.createLineArray(first, second);
@@ -57,12 +57,12 @@ public class eventHandling {
         }
 
 //  this is drawing the wire based on the breadboard hole selected when point view is selected 
-    public void drawingWires(){
-        while(timesClicked == 2){
-            currentLine = drawLine(currentLineArray[0], currentLineArray[2], currentLineArray[1], currentLineArray[3]);
-            timesClicked = 0;
-        }
-    }
+//    public void drawingWires(){
+//        while(timesClicked == 2){
+//            currentLine = drawLine(currentLineArray[0], currentLineArray[2], currentLineArray[1], currentLineArray[3]);
+//            timesClicked = 0;
+//        }
+//    }
     
 // this is for moving the endpoint of already drawn wire with Left Click
     public void movingEndpoint(){
@@ -170,14 +170,20 @@ public class eventHandling {
    }
     
 // creates a line    
-    private Line drawLine(double w, double x, double y, double z){
+    private Line drawLine(double w, double x, double y, double z, boolean isWired){
         Line line = new Line();
         line.setStartX(w + 5);
         line.setStartY(x + 5);
         line.setEndX(y + 5);
         line.setEndY(z + 5);
-        line.setStroke(Color.LAWNGREEN);
         line.setStrokeWidth(2.5);
+        
+        if(isWired == false){
+            line.setStroke(Color.rgb(0, 0, 0, 0));
+        }
+        else
+            line.setStroke(Color.BLUE);
+        
         return line;
     }
     

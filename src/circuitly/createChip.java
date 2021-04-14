@@ -50,4 +50,86 @@ public class createChip {
         
     }
     
+    public class createNandChip{
+        public ImageView createShape(){
+            Image test = new Image("file:images/NAND.png");
+            iv.setImage(test);
+            iv.setX(500);
+            iv.setY(550);
+        
+            iv.setOnMousePressed(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){    
+                createShape();  
+            }
+            });
+        
+            iv.setOnMouseDragged(new EventHandler<MouseEvent>(){
+                public void handle(MouseEvent e){    
+                    iv.setX(e.getSceneX());
+                    iv.setY(e.getSceneY());
+                }
+            });
+        
+            iv.setOnMouseReleased(new EventHandler<MouseEvent>(){
+                public void handle(MouseEvent e){
+                    iv.setX(handled.lineUpChipX((int)e.getSceneX()));
+                    iv.setY(handled.lineUpChipY((int)e.getSceneY()));
+                }
+            });
+            
+            return iv;
+        }
+        
+        public String chipType(){
+            String chipName = "nand";
+            return chipName;
+        }
+        
+        public Double getX(){
+            return iv.getX();
+        }
+        
+    }
+    
+    public class createOrChip{
+        public ImageView createShape(){
+            Image test = new Image("file:images/OR.png");
+            iv.setImage(test);
+            iv.setX(500);
+            iv.setY(600);
+        
+            iv.setOnMousePressed(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){    
+                createShape();  
+            }
+            });
+        
+            iv.setOnMouseDragged(new EventHandler<MouseEvent>(){
+                public void handle(MouseEvent e){    
+                    iv.setX(e.getSceneX());
+                    iv.setY(e.getSceneY());
+                }
+            });
+        
+            iv.setOnMouseReleased(new EventHandler<MouseEvent>(){
+                public void handle(MouseEvent e){
+                    iv.setX(handled.lineUpChipX((int)e.getSceneX()));
+                    iv.setY(handled.lineUpChipY((int)e.getSceneY()));
+                }
+            });
+            
+            return iv;
+        }
+        
+        public String chipType(){
+            String chipName = "nand";
+            return chipName;
+        }
+        
+        public Double getX(){
+            return iv.getX();
+        }
+        
+    }
+    
 }
