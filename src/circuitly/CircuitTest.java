@@ -37,6 +37,11 @@ public class CircuitTest extends Application{
     ArrayList <createChip.createAndChip> andChipList = new ArrayList<>();
     ArrayList <createChip.createNandChip> nandChipList = new ArrayList<>();
     ArrayList <createChip.createOrChip> orChipList = new ArrayList<>();
+    ArrayList <createChip.createXorChip> xorChipList = new ArrayList<>();
+    ArrayList <createChip.createNorChip> norChipList = new ArrayList<>();
+    ArrayList <createChip.createNotChip> notChipList = new ArrayList<>();
+    ArrayList <createChip.createAndFourChip> andFourChipList = new ArrayList<>();
+    ArrayList <createChip.createNandFourChip> nandFourChipList = new ArrayList<>();
     
     ArrayList <Line> createWireList = new ArrayList<>();
     
@@ -72,7 +77,25 @@ public class CircuitTest extends Application{
     createChip.createOrChip orChipSetup = or.new createOrChip();
     ImageView orChip = orChipSetup.createShape();
     
+    createChip xor = new createChip();
+    createChip.createXorChip xorChipSetup = xor.new createXorChip();
+    ImageView xorChip = xorChipSetup.createShape();
     
+    createChip nor = new createChip();
+    createChip.createNorChip norChipSetup = nor.new createNorChip();
+    ImageView norChip = norChipSetup.createShape();
+    
+    createChip not = new createChip();
+    createChip.createNotChip notChipSetup = not.new createNotChip();
+    ImageView notChip = notChipSetup.createShape();
+    
+    createChip andFour = new createChip();
+    createChip.createAndFourChip andFourChipSetup = andFour.new createAndFourChip();
+    ImageView andFourChip = andFourChipSetup.createShape();
+    
+    createChip nandFour = new createChip();
+    createChip.createNandFourChip nandFourChipSetup = nandFour.new createNandFourChip();
+    ImageView nandFourChip = nandFourChipSetup.createShape();
     
     
     public static void main(String[] args) {
@@ -621,7 +644,7 @@ public class CircuitTest extends Application{
             });
         }    
         
-        pane.getChildren().addAll(andChip, nandChip, orChip);
+        pane.getChildren().addAll(andChip, nandChip, orChip, xorChip, norChip, notChip, andFourChip, nandFourChip);
 
         Image pointView = new Image("file:images/point.png");
         Image wireView = new Image("file:images/wire.png");
@@ -754,8 +777,7 @@ public class CircuitTest extends Application{
                 }
             }
         });
-        
-        
+                
 // NAND  
         nandChip.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -880,7 +902,323 @@ public class CircuitTest extends Application{
                            }
                 }
             }
+        });
+
+// XOR
+        xorChip.setOnMousePressed(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){    
+                if(e.getButton() == MouseButton.PRIMARY){
+                    createChip xor = new createChip();
+                    createChip.createXorChip createXorChip = xor.new createXorChip();
+                    
+                    displayCurrentChip = createXorChip.createShape();
+                    pane.getChildren().add(displayCurrentChip);
+                    
+                    xorChipList.add(createXorChip);
+                    chipList.add(displayCurrentChip);
+                    int i = chipList.size() - 1;
+                    
+                    chipList.get(i).setOnMouseClicked(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           if(e.getButton() == MouseButton.SECONDARY){
+                              pane.getChildren().remove(chipList.get(i)); 
+                              andChipList.remove(i);
+                           }
+                       } 
+                    });
+                    
+                    chipList.get(i).setOnMouseReleased(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           chipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
+                           chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
+                           
+                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                           columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                           columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                       } 
+                    });
+                }
+            }
+        });
+        xorChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){  
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(e.getSceneX());
+                    displayCurrentChip.setY(e.getSceneY());
+                }
+            }
+        });
+        xorChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(handled.lineUpChipX((int)e.getSceneX()));
+                    displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
+                    
+                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                }
+            }
+        });
+
+// NOR        
+        norChip.setOnMousePressed(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){    
+                if(e.getButton() == MouseButton.PRIMARY){
+                    createChip nor = new createChip();
+                    createChip.createNorChip createNorChip = nor.new createNorChip();
+                    
+                    displayCurrentChip = createNorChip.createShape();
+                    pane.getChildren().add(displayCurrentChip);
+                    
+                    norChipList.add(createNorChip);
+                    chipList.add(displayCurrentChip);
+                    int i = chipList.size() - 1;
+                    
+                    chipList.get(i).setOnMouseClicked(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           if(e.getButton() == MouseButton.SECONDARY){
+                              pane.getChildren().remove(chipList.get(i)); 
+                              andChipList.remove(i);
+                           }
+                       } 
+                    });
+                    
+                    chipList.get(i).setOnMouseReleased(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           chipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
+                           chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
+                           
+                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                           columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                           columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                       } 
+                    });
+                }
+            }
+        });
+        norChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){  
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(e.getSceneX());
+                    displayCurrentChip.setY(e.getSceneY());
+                }
+            }
+        });
+        norChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(handled.lineUpChipX((int)e.getSceneX()));
+                    displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
+                    
+                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                }
+            }
+        });
+
+// NOT
+        notChip.setOnMousePressed(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){    
+                if(e.getButton() == MouseButton.PRIMARY){
+                    createChip not = new createChip();
+                    createChip.createNotChip createNotChip = not.new createNotChip();
+                    
+                    displayCurrentChip = createNotChip.createShape();
+                    pane.getChildren().add(displayCurrentChip);
+                    
+                    notChipList.add(createNotChip);
+                    chipList.add(displayCurrentChip);
+                    int i = chipList.size() - 1;
+                    
+                    chipList.get(i).setOnMouseClicked(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           if(e.getButton() == MouseButton.SECONDARY){
+                              pane.getChildren().remove(chipList.get(i)); 
+                              andChipList.remove(i);
+                           }
+                       } 
+                    });
+                    
+                    chipList.get(i).setOnMouseReleased(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           chipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
+                           chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
+                           
+                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                           columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                           columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                       } 
+                    });
+                }
+            }
+        });
+        notChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){  
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(e.getSceneX());
+                    displayCurrentChip.setY(e.getSceneY());
+                }
+            }
+        });
+        notChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(handled.lineUpChipX((int)e.getSceneX()));
+                    displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
+                    
+                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                }
+            }
+        });
+        
+// NAND FOUR
+        nandFourChip.setOnMousePressed(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){    
+                if(e.getButton() == MouseButton.PRIMARY){
+                    createChip nandFour = new createChip();
+                    createChip.createNandFourChip createNandFourChip = nandFour.new createNandFourChip();
+                    
+                    displayCurrentChip = createNandFourChip.createShape();
+                    pane.getChildren().add(displayCurrentChip);
+                    
+                    nandFourChipList.add(createNandFourChip);
+                    chipList.add(displayCurrentChip);
+                    int i = chipList.size() - 1;
+                    
+                    chipList.get(i).setOnMouseClicked(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           if(e.getButton() == MouseButton.SECONDARY){
+                              pane.getChildren().remove(chipList.get(i)); 
+                              andChipList.remove(i);
+                           }
+                       } 
+                    });
+                    
+                    chipList.get(i).setOnMouseReleased(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           chipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
+                           chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
+                           
+                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                           columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                           columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                       } 
+                    });
+                }
+            }
+        });
+        nandFourChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){  
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(e.getSceneX());
+                    displayCurrentChip.setY(e.getSceneY());
+                }
+            }
+        });
+        nandFourChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(handled.lineUpChipX((int)e.getSceneX()));
+                    displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
+                    
+                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                }
+            }
+        });
+        
+// AND FOUR      
+        andFourChip.setOnMousePressed(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){    
+                if(e.getButton() == MouseButton.PRIMARY){
+                    createChip andFour = new createChip();
+                    createChip.createAndFourChip createAndFourChip = andFour.new createAndFourChip();
+                    
+                    displayCurrentChip = createAndFourChip.createShape();
+                    pane.getChildren().add(displayCurrentChip);
+                    
+                    andFourChipList.add(createAndFourChip);
+                    chipList.add(displayCurrentChip);
+                    int i = chipList.size() - 1;
+                    
+                    chipList.get(i).setOnMouseClicked(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           if(e.getButton() == MouseButton.SECONDARY){
+                              pane.getChildren().remove(chipList.get(i)); 
+                              andChipList.remove(i);
+                           }
+                       } 
+                    });
+                    
+                    chipList.get(i).setOnMouseReleased(new EventHandler<MouseEvent>(){
+                       public void handle(MouseEvent e){
+                           chipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
+                           chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
+                           
+                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                           columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupOne.get(i).getState());
+                           }
+                           
+                       } 
+                    });
+                }
+            }
+        });
+        andFourChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){  
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(e.getSceneX());
+                    displayCurrentChip.setY(e.getSceneY());
+                }
+            }
+        });
+        andFourChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){
+                if(e.getButton() == MouseButton.PRIMARY){
+                    displayCurrentChip.setX(handled.lineUpChipX((int)e.getSceneX()));
+                    displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
+                    
+                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList);
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                           for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupOne.get(i).getState());
+                           }
+                }
+            }
         });        
+        
+        
         
         Scene scene = new Scene(pane, 1024, 800, true);
         primaryStage.setScene(scene);
