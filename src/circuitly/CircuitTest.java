@@ -47,6 +47,7 @@ public class CircuitTest extends Application{
     
     
     boolean isViewToggled = false;          // false is point view -- true is wired view
+    boolean setMode = false;
     boolean movable = false;
     boolean firstClick = true;
     double currentX, currentY;
@@ -82,60 +83,7 @@ public class CircuitTest extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         BorderPane pane = new BorderPane();
-        pane.getChildren().addAll(andChip, nandChip, orChip);
 
-        Image pointView = new Image("file:images/point.png");
-        Image wireView = new Image("file:images/wire.png");
-        ImageView view = new ImageView();
-        view.setImage(pointView);
-        view.setX(25);
-        view.setY(10);
-        pane.getChildren().add(view);
-        view.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            public void handle(MouseEvent e){
-                if(isViewToggled == false){
-                    isViewToggled = true;
-                    System.out.println("State True");
-                    view.setImage(wireView);
-                    
-                    for(int i = 0; i < createWireList.size(); i++){
-                        createWireList.get(i).setStroke(Color.BLUE);
-                    }
-                }
-                else{
-                    isViewToggled = false;
-                    System.out.println("State False");
-                    view.setImage(pointView);
-                    
-                    for(int i = 0; i < createWireList.size(); i++){
-                        createWireList.get(i).setStroke(Color.rgb(0, 0, 0, 0));
-                    }
-                    
-                }
-            } 
-        });
-        
-        
-        for(int i = 0; i < 8; i++){
-            inputButtons buttons = new inputButtons();
-            Circle input = buttons.buttonSpecs(i);
-            
-            input.setOnMouseClicked(new EventHandler<MouseEvent>(){
-                public void handle(MouseEvent e){  
-                    if(buttons.state == 0){
-                        input.setFill(Color.RED);
-                        buttons.setState();
-                    }
-                    else{
-                        input.setFill(Color.GREY);
-                        buttons.setState();
-                    }
-                }
-            });
-            
-            pane.getChildren().add(input);
-        }
- 
 // intializing the state of the first group of columns
         for(int i = 0; i < 65; i++){
             stateTracker c = new stateTracker();
@@ -671,7 +619,79 @@ public class CircuitTest extends Application{
                     }
                 }
             });
-        }        
+        }    
+        
+        pane.getChildren().addAll(andChip, nandChip, orChip);
+
+        Image pointView = new Image("file:images/point.png");
+        Image wireView = new Image("file:images/wire.png");
+        ImageView view = new ImageView();
+        view.setImage(pointView);
+        view.setX(25);
+        view.setY(10);
+        pane.getChildren().add(view);
+        view.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){
+                if(isViewToggled == false){
+                    isViewToggled = true;
+                    view.setImage(wireView);
+                    
+                    for(int i = 0; i < createWireList.size(); i++){
+                        createWireList.get(i).setStroke(Color.BLUE);
+                    }
+                }
+                else{
+                    isViewToggled = false;
+                    view.setImage(pointView);
+                    
+                    for(int i = 0; i < createWireList.size(); i++){
+                        createWireList.get(i).setStroke(Color.rgb(0, 0, 0, 0));
+                    }
+                    
+                }
+            } 
+        });
+        
+        Image deleteMode = new Image("file:images/delete.png");
+        Image drawMode = new Image("file:images/draw.png");
+        ImageView mode = new ImageView();
+        mode.setImage(drawMode);
+        mode.setX(115);
+        mode.setY(10);
+        pane.getChildren().add(mode);
+        mode.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e){
+                if(setMode == false){
+                    setMode = true;
+                    mode.setImage(deleteMode);
+                }
+                else{
+                    isViewToggled = false;
+                    mode.setImage(drawMode);
+                }
+            } 
+        });
+        
+        
+//        for(int i = 0; i < 8; i++){
+//            inputButtons buttons = new inputButtons();
+//            Circle input = buttons.buttonSpecs(i);
+//            
+//            input.setOnMouseClicked(new EventHandler<MouseEvent>(){
+//                public void handle(MouseEvent e){  
+//                    if(buttons.state == 0){
+//                        input.setFill(Color.RED);
+//                        buttons.setState();
+//                    }
+//                    else{
+//                        input.setFill(Color.GREY);
+//                        buttons.setState();
+//                    }
+//                }
+//            });
+//            
+//            pane.getChildren().add(input);
+//        }       
 
 // AND        
         andChip.setOnMousePressed(new EventHandler<MouseEvent>(){
@@ -712,7 +732,6 @@ public class CircuitTest extends Application{
                 }
             }
         });
-        
         andChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){  
                 if(e.getButton() == MouseButton.PRIMARY){
@@ -721,7 +740,6 @@ public class CircuitTest extends Application{
                 }
             }
         });
-
         andChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){
                 if(e.getButton() == MouseButton.PRIMARY){
@@ -777,7 +795,6 @@ public class CircuitTest extends Application{
                 }
             }
         });
-        
         nandChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){  
                 if(e.getButton() == MouseButton.PRIMARY){
@@ -786,7 +803,6 @@ public class CircuitTest extends Application{
                 }
             }
         });
-
         nandChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){
                 if(e.getButton() == MouseButton.PRIMARY){
@@ -842,7 +858,6 @@ public class CircuitTest extends Application{
                 }
             }
         });
-        
         orChip.setOnMouseDragged(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){  
                 if(e.getButton() == MouseButton.PRIMARY){
@@ -851,7 +866,6 @@ public class CircuitTest extends Application{
                 }
             }
         });
-
         orChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){
                 if(e.getButton() == MouseButton.PRIMARY){

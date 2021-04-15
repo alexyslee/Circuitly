@@ -13,8 +13,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/AND.png");
             iv.setImage(test);
-            iv.setX(500);
-            iv.setY(500);
+            iv.setX(300);
+            iv.setY(5);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -54,8 +54,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/NAND.png");
             iv.setImage(test);
-            iv.setX(500);
-            iv.setY(550);
+            iv.setX(300);
+            iv.setY(50);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -95,8 +95,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/OR.png");
             iv.setImage(test);
-            iv.setX(500);
-            iv.setY(600);
+            iv.setX(405);
+            iv.setY(5);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
