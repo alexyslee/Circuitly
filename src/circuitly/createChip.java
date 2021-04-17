@@ -13,8 +13,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/AND.png");
             iv.setImage(test);
-            iv.setX(300);
-            iv.setY(5);
+            iv.setX(1180);
+            iv.setY(10);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -54,8 +54,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/NAND.png");
             iv.setImage(test);
-            iv.setX(300);
-            iv.setY(50);
+            iv.setX(1075);
+            iv.setY(10);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -95,8 +95,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/OR.png");
             iv.setImage(test);
-            iv.setX(405);
-            iv.setY(5);
+            iv.setX(1075);
+            iv.setY(55);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -136,8 +136,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/XOR.png");
             iv.setImage(test);
-            iv.setX(405);
-            iv.setY(50);
+            iv.setX(1180);
+            iv.setY(55);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -177,8 +177,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/NOR.png");
             iv.setImage(test);
-            iv.setX(510);
-            iv.setY(5);
+            iv.setX(1075);
+            iv.setY(100);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -218,8 +218,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/ANDFOUR.png");
             iv.setImage(test);
-            iv.setX(510);
-            iv.setY(50);
+            iv.setX(1180);
+            iv.setY(100);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -259,8 +259,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/NANDFOUR.png");
             iv.setImage(test);
-            iv.setX(615);
-            iv.setY(5);
+            iv.setX(1075);
+            iv.setY(145);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -300,8 +300,8 @@ public class createChip {
         public ImageView createShape(){
             Image test = new Image("file:images/NOT.png");
             iv.setImage(test);
-            iv.setX(615);
-            iv.setY(50);
+            iv.setX(1180);
+            iv.setY(145);
         
             iv.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
@@ -327,7 +327,7 @@ public class createChip {
         }
         
         public String chipType(){
-            String chipName = "nor";
+            String chipName = "not";
             return chipName;
         }
         

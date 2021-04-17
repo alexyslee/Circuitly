@@ -318,6 +318,36 @@ public class stateTracker {
         }
         
        }
+    public class columnCreationButtons{
+        double xCoord = 0;
+        
+        public int setState(int states){
+            int state = 1;
+            return state;
+        }
+        
+        public int getState(){
+            int state = 1;
+            return state;
+        }
+        
+        public void setX(int i){
+            if(i == 0){
+                xCoord = 25;
+            }
+            else{
+                xCoord = 25 + 15 * i;
+            }
+        }
+        public double getX(){
+            return xCoord;
+        }
+        
+        public double getY(){
+            double yCoordinatesPower = 100;
+            return yCoordinatesPower;
+        }
+    }    
     
     }
 

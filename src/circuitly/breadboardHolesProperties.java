@@ -13,6 +13,7 @@ public class breadboardHolesProperties {
     Rectangle[] breadboardHoles = new Rectangle[325];
     Rectangle[] breadboardPowerHoles = new Rectangle[65];
     Rectangle[] breadboardGroundHoles = new Rectangle[65];
+    Rectangle[] breadboardButtonHoles = new Rectangle[16];
     
     private Rectangle breadboardSqaures(int x, int y){
         Rectangle rec = new Rectangle();
@@ -48,12 +49,29 @@ public class breadboardHolesProperties {
         return breadboardHoles;
     }
     
+    public Rectangle[] returnButtonHoles(){
+        return breadboardButtonHoles;
+    }
+    
     public Rectangle[] returnPowerRow(){
         return breadboardPowerHoles;
     }
     
     public Rectangle[] returnGroundRow(){
         return breadboardGroundHoles;
+    }
+    
+    public void createButtonRow(){
+        int l = 0;
+        
+        while(l < 16){
+            for (int i = 0; i < 8; i++) {
+                for(int j = 0; j < 2; j++){
+                    breadboardButtonHoles[l] = breadboardSqaures(735 + i * 35, 45 + j * 15);
+                    l++;
+                } // end of for
+            } // end of for
+        } //end of while
     }
     
     public void createPowerRow(){

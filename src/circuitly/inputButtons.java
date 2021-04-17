@@ -12,9 +12,9 @@ public class inputButtons {
     
     public Circle buttonSpecs(int i){
         Circle circ = new Circle();
-        circ.setRadius(8);
-        circ.setCenterX(500 + (i * 35));
-        circ.setCenterY(20);
+        circ.setRadius(10);
+        circ.setCenterX(740 + (i * 35));
+        circ.setCenterY(25);
         circ.setFill(Color.GREY);
         
         return circ;
