@@ -1,15 +1,17 @@
 package circuitly;
 
 import java.util.ArrayList;
+import javafx.scene.shape.Line;
 
 public class stateTracker {
-    double[] xLocation;           // these are going to be X values where the wire will be found
-    double[] yLocation;           // same thing but Y values
     
     ArrayList <stateTracker.columnCreationPower> powerList;
     ArrayList <stateTracker.columnCreationGroupOne> columnStatesGroupOneList;
     ArrayList <stateTracker.columnCreationGroupTwo> columnStatesGroupTwoList;
     ArrayList <stateTracker.columnCreationGround> groundList;
+    ArrayList <stateTracker.columnCreationButtons> buttonsList;
+    
+    ArrayList <Line> wireList;
     
     double[] locationsArray;
     double startX, startY, endX, endY;
@@ -18,25 +20,24 @@ public class stateTracker {
     int storeFirstColumnState, storeSecondColumnState;
     int firstY, secondY, firstLocation, secondLocation;
     int setState, setFirstGroup, setSecondGroup;
+    int setArraySize;
+    int z = 1;
+    
+    Line[] connectedLines = new Line[1000];
     
     public void getNeededInformation(double[] locations, ArrayList <stateTracker.columnCreationPower> power, 
             ArrayList <stateTracker.columnCreationGround> ground, 
             ArrayList <stateTracker.columnCreationGroupOne> groupOne, 
-            ArrayList <stateTracker.columnCreationGroupTwo> groupTwo){
-        
-        startX = locations[0] - 5;
-        startY = locations[1];
-        endX = locations[2] - 5;
-        endY = locations[3];
+            ArrayList <stateTracker.columnCreationGroupTwo> groupTwo, ArrayList <Line> createWireList, ArrayList <stateTracker.columnCreationButtons> button){
         
         powerList = power;
         columnStatesGroupOneList = groupOne;
         columnStatesGroupTwoList = groupTwo;
         groundList = ground;
-        
-        findFirstColumnState();
-        findSecondColumnState();
+        wireList = createWireList;
+        buttonsList = button;
     }
+    
     
     public void findFirstColumnState(){
         if(startY == 105.0){
@@ -75,6 +76,16 @@ public class stateTracker {
                     firstLocation = i;
                     setFirstGroup = 3;
                     storeFirstColumnState = columnStatesGroupTwoList.get(i).getState();
+                }
+            }
+        }
+        
+        else if(startY >= 40 && startY <= 75){
+            for(int i = 0; i < 8; i++){
+                if(startX == buttonsList.get(i).getX()){
+                    firstLocation = i;
+                    setFirstGroup = 4;
+                    storeFirstColumnState = buttonsList.get(i).getState();
                 }
             }
         }
@@ -119,6 +130,16 @@ public class stateTracker {
                 }
             }
         }
+        else if(endY >= 40 && endY <= 75){
+            for(int i = 0; i < 8; i++){
+                if(endX == buttonsList.get(i).getX()){
+                    secondLocation = i;
+                    setSecondGroup = 4;
+                    storeSecondColumnState = buttonsList.get(i).getState();
+                }
+            }
+        }
+        
     }
     public void calculateState(){
        if(storeFirstColumnState == 4 || storeSecondColumnState == 4){
@@ -142,19 +163,18 @@ public class stateTracker {
         switch(setFirstGroup){
             case 0:
                 powerList.get(firstLocation).setState(setState);
-                System.out.println("First Col State: "+ powerList.get(firstLocation).getState());
                 break;
             case 1:    
                 groundList.get(firstLocation).setState(setState);
-                System.out.println("First Col State: "+ groundList.get(firstLocation).getState());
                 break;
             case 2:
                 columnStatesGroupOneList.get(firstLocation).setState(setState);
-                System.out.println("First Col State: "+ columnStatesGroupOneList.get(firstLocation).getState());
                 break;
             case 3:
                 columnStatesGroupTwoList.get(firstLocation).setState(setState);
-                System.out.println("First Col State: "+ columnStatesGroupTwoList.get(firstLocation).getState());
+                break;
+            case 4:
+                buttonsList.get(firstLocation).setState(setState);
                 break;
             default:
                 System.out.println("Incorrect");
@@ -165,25 +185,110 @@ public class stateTracker {
         switch(setSecondGroup){
             case 0:
                 powerList.get(secondLocation).setState(setState);
-                System.out.println("Second Col State: "+ powerList.get(secondLocation).getState());
                 break;
             case 1:
                 groundList.get(secondLocation).setState(setState);
-                System.out.println("Second Col State: "+ groundList.get(secondLocation).getState());
                 break;
             case 2:
                 columnStatesGroupOneList.get(secondLocation).setState(setState);
-                System.out.println("Second Col State: "+ columnStatesGroupOneList.get(secondLocation).getState());
                 break;
             case 3:
                 columnStatesGroupTwoList.get(secondLocation).setState(setState);
-                System.out.println("Second Col State: "+ columnStatesGroupTwoList.get(secondLocation).getState());
+                break;
+            case 4:
+                buttonsList.get(secondLocation).setState(setState);
                 break;
             default:
                 System.out.println("Incorrect");
                 break;
         }
     }
+    
+    public void setStateFromWires(){
+        for(int i = 0; i < wireList.size(); i++){
+            startX = wireList.get(i).getStartX() - 5;
+            startY = wireList.get(i).getStartY();
+            endX = wireList.get(i).getEndX() - 5;
+            endY = wireList.get(i).getEndY();
+            
+            findFirstColumnState();
+            findSecondColumnState();
+            calculateState();
+        }
+    }
+    public void setStateFromButton(int states, double x, ArrayList <Line> createWireList, ArrayList <stateTracker.columnCreationButtons> button){
+        buttonsList = button; 
+        wireList = createWireList;
+        int state = states;     
+        
+        
+        for(int i = 0; i < 8; i ++){   
+                if(x == button.get(i).getX() + 5){
+                    buttonsList.get(i).setState(states);
+                    
+                    
+                    if(createWireList.size() > 0){
+                        for(int j = 0; j < createWireList.size(); j++){
+                            if(wireList.get(j).getStartX() == x || wireList.get(j).getEndX() == x){
+                                connectedLines[0] = wireList.get(j);
+                                getConnectedWires(0, state);
+                            }
+                        }
+                    }
+                    
+                }
+            }
+    }
+    public void getConnectedWires(int n, int state){
+        int states = state;
+        z = 1;
+        if(n < wireList.size()){
+            for(int i = 0; i < wireList.size(); i++){
+
+                if(connectedLines[n].getStartX() == wireList.get(i).getStartX() && connectedLines[n].getEndX() == wireList.get(i).getEndX()){
+
+                }
+                else if(connectedLines[n].getStartX() == wireList.get(i).getStartX() ^ connectedLines[n].getStartX() == wireList.get(i).getEndX() ^ connectedLines[n].getEndX() == wireList.get(i).getEndX() ^ connectedLines[n].getEndX() == wireList.get(i).getStartX()){
+                    connectedLines[z] = wireList.get(i);
+                    z++;
+                }
+            }
+            ++n;
+            if(connectedLines[n] != null){
+                getConnectedWires(n, states);
+            }
+            else{
+                n = wireList.size() + 1;
+                getConnectedWires(n,  states);
+            }
+            
+        }
+
+        else{
+            setArraySize = 0;
+            for(int i = 0; i < connectedLines.length; i++){
+                if(connectedLines[i] == null){
+                }
+                else{
+                    setArraySize++;
+                }
+            }
+            
+            for(int i = 0; i < setArraySize; i++){
+                startX = connectedLines[i].getStartX();
+                endX = connectedLines[i].getEndX();
+                
+                for(int j = 0; j < columnStatesGroupTwoList.size(); j++){
+//                    System.out.println(columnStatesGroupTwoList.get(j).getX());
+                    if(startX == (columnStatesGroupTwoList.get(j).getX() + 5) || endX == (columnStatesGroupTwoList.get(j).getX() + 5)){
+                        columnStatesGroupTwoList.get(j).setState(state);
+                    }
+                }
+            }
+            
+        }
+    }
+    
     
     public ArrayList <stateTracker.columnCreationPower> returnUpdatedPowerRow(){
         return powerList;
@@ -196,6 +301,9 @@ public class stateTracker {
     }
     public ArrayList <stateTracker.columnCreationGround> returnGround(){
         return groundList;
+    }
+    ArrayList <stateTracker.columnCreationButtons> returnButtons(){
+        return buttonsList;
     }
     
     public class columnCreationPower{
@@ -319,33 +427,32 @@ public class stateTracker {
         
        }
     public class columnCreationButtons{
+        int state;
         double xCoord = 0;
         
-        public int setState(int states){
-            int state = 1;
-            return state;
+        public void setState(int states){
+            state = states;
         }
         
         public int getState(){
-            int state = 1;
             return state;
         }
         
         public void setX(int i){
             if(i == 0){
-                xCoord = 25;
+                xCoord = 735;
             }
             else{
-                xCoord = 25 + 15 * i;
+                xCoord = 735 + 35 * i;
             }
         }
         public double getX(){
             return xCoord;
         }
         
-        public double getY(){
-            double yCoordinatesPower = 100;
-            return yCoordinatesPower;
+        public double[] getY(){
+            double[] yButtonCoordinates = new double[] {35, 70};
+            return yButtonCoordinates;
         }
     }    
     

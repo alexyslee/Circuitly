@@ -140,16 +140,6 @@ public class eventHandling {
         return currentY;
     }
 
-    public void findWireMatch(double x, double y){
-        for(int i = 0; i < createdWireList.size(); i++){
-            if(x == createdWireList.get(i).getStartX() && y == createdWireList.get(i).getStartY()){
-                System.out.println("match in start");
-            }
-            else if(x == createdWireList.get(i).getEndX() && y == createdWireList.get(i).getEndY()){
-                System.out.println("match in end");
-            }
-        }
-    }
     
     
                    

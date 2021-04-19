@@ -49,6 +49,7 @@ public class CircuitTest extends Application{
     ArrayList <stateTracker.columnCreationGroupTwo> columnStatesGroupTwo = new ArrayList<>();
     ArrayList <stateTracker.columnCreationPower> power = new ArrayList<>();
     ArrayList <stateTracker.columnCreationGround> ground = new ArrayList<>();
+    ArrayList <stateTracker.columnCreationButtons> button  = new ArrayList<>();
     
     
     boolean isViewToggled = true;          // false is point view -- true is wired view
@@ -137,7 +138,15 @@ public class CircuitTest extends Application{
             stateTracker.columnCreationGround groundColumn = g.new columnCreationGround();
             groundColumn.setX(i);
             ground.add(groundColumn);
-        }    
+        }
+// intializing the state of the button rows
+        for(int i = 0; i < 8; i++){
+            stateTracker b = new stateTracker();
+            stateTracker.columnCreationButtons buttonColumn = b.new columnCreationButtons();
+            buttonColumn.setX(i);
+            button.add(buttonColumn);
+        }
+        
 
 // BUTTONS        
         breadboardHolesProperties buttonRow = new breadboardHolesProperties();
@@ -191,17 +200,21 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
@@ -245,17 +258,21 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
-                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
-                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
@@ -318,17 +335,21 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
@@ -372,17 +393,21 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
-                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
-                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
@@ -445,17 +470,21 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
@@ -499,17 +528,21 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
-                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
-                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
@@ -575,17 +608,21 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
@@ -629,17 +666,22 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
-                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
-                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
@@ -702,17 +744,21 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                             for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                             }
@@ -756,17 +802,23 @@ public class CircuitTest extends Application{
                             
                             System.out.println(toBeCompared[3]);
                             
-                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo);
-                            tracking.calculateState();
+                            tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                            tracking.setStateFromWires();
                             
-                            power = tracking.returnUpdatedPowerRow();
                             columnStatesGroupOne = tracking.returnGroupOne();
-                            ground = tracking.returnGround();
+                            columnStatesGroupTwo = tracking.returnGroupTwo();
+                            
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
-                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
-                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
+                            tracking.setStateFromWires();
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
@@ -827,22 +879,50 @@ public class CircuitTest extends Application{
                 }
             } 
         });
+// OUTPUTS
+        for(int i = 0; i < 8; i++){
+            outputButtons outs = new outputButtons();
+            Circle output = outs.buttonSpecs(i);
+
+            pane.getChildren().add(output);
+        }  
         
-        
+// BUTTON PRESSES        
         for(int i = 0; i < 8; i++){
             inputButtons buttons = new inputButtons();
             Circle input = buttons.buttonSpecs(i);
             
             input.setOnMouseClicked(new EventHandler<MouseEvent>(){
-                public void handle(MouseEvent e){  
-                    if(buttons.state == 0){
-                        input.setFill(Color.RED);
-                        buttons.setState();
+                public void handle(MouseEvent e){
+                    buttons.setState();
+                    if(buttons.getState() == 1){
+                        input.setFill(Color.BLACK);
                     }
-                    else{
+                    else
                         input.setFill(Color.GREY);
-                        buttons.setState();
-                    }
+                    
+                    tracking.getNeededInformation(toBeCompared, power, ground, columnStatesGroupOne, columnStatesGroupTwo, createWireList, button);
+                    tracking.setStateFromButton(buttons.getState(), input.getCenterX(), createWireList, button);
+                    tracking.setStateFromWires();
+                    
+                    columnStatesGroupOne = tracking.returnGroupOne();
+                    columnStatesGroupTwo = tracking.returnGroupTwo();
+                    
+                    trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
+                        norChipList, notChipList, andFourChipList, nandFourChipList);
+                    
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                    
+                    tracking.setStateFromWires();
+                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                    
+                    for(int i = 0; i < 65; i++){
+                               System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
+                           }
+                    
+                    
                 }
             });
             
@@ -852,7 +932,7 @@ public class CircuitTest extends Application{
 // AND        
         andChip.setOnMousePressed(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){    
-                if(e.getButton() == MouseButton.PRIMARY){
+                if(e.getButton() == MouseButton.PRIMARY && setMode == false){
                     createChip chi = new createChip();
                     createChip.createAndChip createAndChip = chi.new createAndChip();
                     
@@ -862,30 +942,24 @@ public class CircuitTest extends Application{
                     andChipList.add(createAndChip);
                     chipList.add(displayCurrentChip);
                     int i = chipList.size() - 1;
-                    
-                    chipList.get(i).setOnMouseClicked(new EventHandler<MouseEvent>(){
-                       public void handle(MouseEvent e){
-                           if(e.getButton() == MouseButton.SECONDARY){
-                              pane.getChildren().remove(chipList.get(i)); 
-                              andChipList.remove(i);
-                           }
-                       } 
-                    });
+ 
                     
                     chipList.get(i).setOnMouseReleased(new EventHandler<MouseEvent>(){
                        public void handle(MouseEvent e){
+                        if(e.getButton() == MouseButton.PRIMARY && setMode == false){   
                            chipList.get(i).setX(handled.lineUpChipX((int)e.getSceneX()));
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
                             norChipList, notChipList, andFourChipList, nandFourChipList);
-                    columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
-                    columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
+                            columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
+                            columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
                            
                        } 
+                       }
                     });
                 }
             }
@@ -900,7 +974,7 @@ public class CircuitTest extends Application{
         });
         andChip.setOnMouseReleased(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e){
-                if(e.getButton() == MouseButton.PRIMARY){
+                if(e.getButton() == MouseButton.PRIMARY && setMode == false){
                     displayCurrentChip.setX(handled.lineUpChipX((int)e.getSceneX()));
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
@@ -911,9 +985,11 @@ public class CircuitTest extends Application{
                            for(int i = 0; i < 65; i++){
                                System.out.println("I[" + (i + 1) + "]: " + columnStatesGroupTwo.get(i).getState());
                            }
-                }
+                } 
+                
             }
         });
+        
                 
 // NAND  
         nandChip.setOnMousePressed(new EventHandler<MouseEvent>(){

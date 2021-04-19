@@ -6,9 +6,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class inputButtons {
-    Circle[] inputs = new Circle[8];
+    Circle[] outputs = new Circle[8];
     boolean buttonStatus = false;
-    int state;
+    int state = 0;
     
     public Circle buttonSpecs(int i){
         Circle circ = new Circle();
@@ -24,11 +24,13 @@ public class inputButtons {
         return state;
     }
     
-    public void setState(){
+    public int setState(){
         if(state == 0){
-            state = 5;
+            state = 1;
         }
         else
             state = 0;
+        
+        return state;
     }
 }
