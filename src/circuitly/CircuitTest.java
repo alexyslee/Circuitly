@@ -207,7 +207,7 @@ public class CircuitTest extends Application{
                             columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                             
@@ -265,7 +265,7 @@ public class CircuitTest extends Application{
                             columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                             
@@ -342,7 +342,7 @@ public class CircuitTest extends Application{
                             columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                             
@@ -400,7 +400,7 @@ public class CircuitTest extends Application{
                             columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                             
@@ -477,7 +477,7 @@ public class CircuitTest extends Application{
                             columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                             
@@ -535,7 +535,7 @@ public class CircuitTest extends Application{
                             columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                             
@@ -615,7 +615,7 @@ public class CircuitTest extends Application{
                             columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                             
@@ -673,7 +673,7 @@ public class CircuitTest extends Application{
                             columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
@@ -751,7 +751,7 @@ public class CircuitTest extends Application{
                             columnStatesGroupTwo = tracking.returnGroupTwo();
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                             
@@ -810,7 +810,7 @@ public class CircuitTest extends Application{
                             
                             
                             trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
@@ -909,7 +909,7 @@ public class CircuitTest extends Application{
                     columnStatesGroupTwo = tracking.returnGroupTwo();
                     
                     trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                        norChipList, notChipList, andFourChipList, nandFourChipList);
+                        norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
@@ -951,7 +951,7 @@ public class CircuitTest extends Application{
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                             columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                             columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -979,7 +979,7 @@ public class CircuitTest extends Application{
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
                     trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1020,7 +1020,7 @@ public class CircuitTest extends Application{
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1046,7 +1046,7 @@ public class CircuitTest extends Application{
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
                     trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1085,7 +1085,7 @@ public class CircuitTest extends Application{
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1111,7 +1111,7 @@ public class CircuitTest extends Application{
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
                     trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1150,7 +1150,7 @@ public class CircuitTest extends Application{
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
                           trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1176,7 +1176,7 @@ public class CircuitTest extends Application{
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
                     trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1215,7 +1215,7 @@ public class CircuitTest extends Application{
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1241,7 +1241,7 @@ public class CircuitTest extends Application{
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
                     trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1280,7 +1280,7 @@ public class CircuitTest extends Application{
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1306,7 +1306,7 @@ public class CircuitTest extends Application{
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
                     trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1345,7 +1345,7 @@ public class CircuitTest extends Application{
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1371,7 +1371,7 @@ public class CircuitTest extends Application{
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
                     trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1410,7 +1410,7 @@ public class CircuitTest extends Application{
                            chipList.get(i).setY(handled.lineUpChipY((int)e.getSceneY()));
                            
                            trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){
@@ -1437,7 +1437,8 @@ public class CircuitTest extends Application{
                     displayCurrentChip.setY(handled.lineUpChipY((int)e.getSceneY())); 
                     
                     trackingChip.getInformation(columnStatesGroupOne, columnStatesGroupTwo, andChipList, nandChipList, orChipList, xorChipList,
-                            norChipList, notChipList, andFourChipList, nandFourChipList);
+                            norChipList, notChipList, andFourChipList, nandFourChipList, createWireList);
+                    
                     columnStatesGroupOne = trackingChip.columnStatesGroupOneList;
                     columnStatesGroupTwo = trackingChip.columnStatesGroupTwoList;
                            for(int i = 0; i < 65; i++){

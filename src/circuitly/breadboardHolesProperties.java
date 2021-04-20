@@ -109,5 +109,17 @@ public class breadboardHolesProperties {
         } //end of while
     }
     
+    public void createOutputRow(){
+        int l = 0;
+        
+        while(l < 325){
+            for (int i = 0; i < 2; i++) {
+                for(int j = 0; j < 1; j++){
+                    breadboardHoles[l] = breadboardSqaures(25 + i * 15, 240 + j * 15);
+                    l++;
+                } // end of for
+            } // end of for
+        } //end of while
+    }
     
 }

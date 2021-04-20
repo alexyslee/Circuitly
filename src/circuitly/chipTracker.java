@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 public class chipTracker {
@@ -24,13 +25,30 @@ public class chipTracker {
     stateTracker.columnCreationGroupOne[] compareList = new stateTracker.columnCreationGroupOne[7];
     stateTracker.columnCreationGroupTwo[] compareListTwo = new stateTracker.columnCreationGroupTwo[7];
     
+    stateTracker.columnCreationGroupOne[] wiresToUpdateGroupOneOne = new stateTracker.columnCreationGroupOne[1000];
+    stateTracker.columnCreationGroupOne[] wiresToUpdateGroupOneTwo = new stateTracker.columnCreationGroupOne[1000];
+    stateTracker.columnCreationGroupTwo[] wiresToUpdateGroupTwoOne = new stateTracker.columnCreationGroupTwo[1000];
+    stateTracker.columnCreationGroupTwo[] wiresToUpdateGroupTwoTwo = new stateTracker.columnCreationGroupTwo[1000];
+    
+    int oneOneState, twoOneState;
+    
+    ArrayList <Line> wireList;
+    
+    Line[] toBeUpdatedOneOne = new Line[1000];
+    Line[] toBeUpdatedTwoOne = new Line[1000];
+    
+    int inArray;
+    int z = 1;int y = 1;
+    
     public void getInformation(ArrayList <stateTracker.columnCreationGroupOne> groupOne, ArrayList <stateTracker.columnCreationGroupTwo> groupTwo,
             ArrayList <createChip.createAndChip> andChip, ArrayList <createChip.createNandChip> nandChip, ArrayList <createChip.createOrChip> orChip,
             ArrayList <createChip.createXorChip> xorChip, ArrayList <createChip.createNorChip> norChip, ArrayList <createChip.createNotChip> notChip,
-            ArrayList <createChip.createAndFourChip> andFourChip, ArrayList <createChip.createNandFourChip> nandFourChip){
+            ArrayList <createChip.createAndFourChip> andFourChip, ArrayList <createChip.createNandFourChip> nandFourChip, ArrayList <Line> createWireList){
         
         columnStatesGroupOneList = groupOne;
         columnStatesGroupTwoList = groupTwo;
+        
+        wireList = createWireList;
         
         andChipList = andChip;
         nandChipList = nandChip;
@@ -317,9 +335,24 @@ public class chipTracker {
         for(int i = 0; i < 65; i++ ){
             if(compareList[0].getX() == columnStatesGroupOneList.get(i).getX()){
                 columnStatesGroupOneList.get(i + 3).setState(compareList[3].getState());
-                columnStatesGroupOneList.get(i + 6).setState(compareList[6].getState()); 
+                columnStatesGroupOneList.get(i + 6).setState(compareList[6].getState());
+                
+                wiresToUpdateGroupOneOne[0] = columnStatesGroupOneList.get(i + 3);
+                oneOneState = columnStatesGroupOneList.get(i + 3).getState();
+                getConnectedColumnsOneOne();
+                
+                wiresToUpdateGroupOneTwo[0] = columnStatesGroupOneList.get(i + 6);
+                
                 columnStatesGroupTwoList.get(i + 2).setState(compareListTwo[2].getState());
                 columnStatesGroupTwoList.get(i + 5).setState(compareListTwo[5].getState());
+                
+                wiresToUpdateGroupTwoOne[0] = columnStatesGroupTwoList.get(i + 2);
+                twoOneState = columnStatesGroupTwoList.get(i + 2).getState();
+                getConnectedColumnsTwoOne();
+                
+                wiresToUpdateGroupTwoTwo[0] = columnStatesGroupTwoList.get(i + 5);
+                
+                
             }
         }
     }
@@ -411,8 +444,16 @@ public class chipTracker {
         for(int i = 0; i < 65; i++ ){
             if(compareList[0].getX() == columnStatesGroupOneList.get(i).getX()){
                 columnStatesGroupOneList.get(i + 3).setState(compareList[3].getState());
+                wiresToUpdateGroupOneOne[0] = columnStatesGroupOneList.get(i + 3);
+                oneOneState = columnStatesGroupOneList.get(i + 3).getState();
+                getConnectedColumnsOneOne();
+                
                 columnStatesGroupOneList.get(i + 6).setState(compareList[6].getState()); 
                 columnStatesGroupTwoList.get(i + 2).setState(compareListTwo[2].getState());
+                wiresToUpdateGroupTwoOne[0] = columnStatesGroupTwoList.get(i + 2);
+                twoOneState = columnStatesGroupTwoList.get(i + 2).getState();
+                getConnectedColumnsTwoOne();
+                
                 columnStatesGroupTwoList.get(i + 5).setState(compareListTwo[5].getState());
             }
         }
@@ -652,4 +693,143 @@ public class chipTracker {
             }
         }
     }
-}
+    
+    public void getConnectedColumnsOneOne(){
+        double check = wiresToUpdateGroupOneOne[0].getX() + 5;
+//        System.out.println("Column X:   " + check);
+        for(int i = 0; i < wireList.size(); i++){
+            if(check == wireList.get(i).getStartX() || wireList.get(i).getEndX() == check){
+                toBeUpdatedOneOne[0] = wireList.get(i);
+                getConnectedWiresGroupOneOne(0);
+            }
+
+        }
+    }
+    public void getConnectedWiresGroupOneOne(int n){
+        if(n < wireList.size()){
+            for(int i = 0; i < wireList.size(); i++){
+                if((toBeUpdatedOneOne[n].getStartX() == wireList.get(i).getStartX() ||  toBeUpdatedOneOne[n].getStartX() == wireList.get(i).getEndX() || 
+                        toBeUpdatedOneOne[n].getEndX() == wireList.get(i).getEndX() || toBeUpdatedOneOne[n].getEndX() == wireList.get(i).getStartX()) && 
+                        (toBeUpdatedOneOne[n].getStartX() != wireList.get(i).getStartX() && toBeUpdatedOneOne[n].getEndX() != wireList.get(i).getEndX())){
+                    double tempStart = wireList.get(i).getStartX();
+                    double tempEnd = wireList.get(i).getEndX();
+                    
+                    boolean notDuplicate = true;
+                    for(int j = 0; j < toBeUpdatedOneOne.length; j++){
+                        if(toBeUpdatedOneOne[j] != null){
+                            if(tempStart == toBeUpdatedOneOne[j].getStartX() && tempEnd == toBeUpdatedOneOne[j].getEndX()){
+                                notDuplicate = false;
+                                j = toBeUpdatedOneOne.length + 1;
+                            }
+                        }
+                    }
+                    
+                    if(notDuplicate == true){
+                        toBeUpdatedOneOne[z] = wireList.get(i);
+                        z++;
+                    }
+                    
+                }
+            }
+            
+            n++;
+            if(toBeUpdatedOneOne[n] != null){
+                System.out.println("------New N-----");
+                getConnectedWiresGroupOneOne(n);
+            }
+            else{
+                
+                getConnectedWiresGroupOneOne(wireList.size() + 1);
+            }
+        }
+        
+        else{
+            for(int i = 0; i < toBeUpdatedOneOne.length; i++){
+                if(toBeUpdatedOneOne[i] != null){
+                    System.out.println("In List: " + toBeUpdatedOneOne[i].getStartX() + "           " + toBeUpdatedOneOne[i].getEndX()); 
+                    
+                    for(int j = 0; j < 65; j++){
+                        if(toBeUpdatedOneOne[j] != null){
+                            double startX = toBeUpdatedOneOne[j].getStartX();
+                            double endX = toBeUpdatedOneOne[j].getEndX();
+
+                            if(startX == columnStatesGroupOneList.get(i).getX() || endX == columnStatesGroupOneList.get(i).getX()){
+                                columnStatesGroupOneList.get(i).setState(oneOneState);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    public void getConnectedColumnsTwoOne(){
+        double check = wiresToUpdateGroupTwoOne[0].getX() + 5;
+        for(int i = 0; i < wireList.size(); i++){
+            if(check == wireList.get(i).getStartX() || wireList.get(i).getEndX() == check){
+                toBeUpdatedTwoOne[0] = wireList.get(i);
+                getConnectedWiresGroupTwoOne(0);
+            }
+
+        }
+    }        
+    public void getConnectedWiresGroupTwoOne(int n){
+        if(n < wireList.size()){
+            for(int i = 0; i < wireList.size(); i++){
+                if((toBeUpdatedTwoOne[n].getStartX() == wireList.get(i).getStartX() ||  toBeUpdatedTwoOne[n].getStartX() == wireList.get(i).getEndX() || 
+                        toBeUpdatedTwoOne[n].getEndX() == wireList.get(i).getEndX() || toBeUpdatedTwoOne[n].getEndX() == wireList.get(i).getStartX()) && 
+                        (toBeUpdatedTwoOne[n].getStartX() != wireList.get(i).getStartX() && toBeUpdatedTwoOne[n].getEndX() != wireList.get(i).getEndX())){
+                    double tempStart = wireList.get(i).getStartX();
+                    double tempEnd = wireList.get(i).getEndX();
+                    
+                    boolean notDuplicate = true;
+                    for(int j = 0; j < toBeUpdatedTwoOne.length; j++){
+                        if(toBeUpdatedTwoOne[j] != null){
+                            if(tempStart == toBeUpdatedTwoOne[j].getStartX() && tempEnd == toBeUpdatedTwoOne[j].getEndX()){
+                                notDuplicate = false;
+                                j = toBeUpdatedTwoOne.length + 1;
+                            }
+                        }
+                    }
+                    
+                    if(notDuplicate == true){
+                        toBeUpdatedTwoOne[y] = wireList.get(i);
+                        y++;
+                    }
+                    
+                }
+            }
+            
+            n++;
+            if(toBeUpdatedTwoOne[n] != null){
+                System.out.println("------New N-----");
+                getConnectedWiresGroupTwoOne(n);
+            }
+            else{
+                
+                getConnectedWiresGroupTwoOne(wireList.size() + 1);
+            }
+        }
+        
+        else{
+            for(int i = 0; i < toBeUpdatedTwoOne.length; i++){
+                if(toBeUpdatedTwoOne[i] != null){
+                    System.out.println("In List: " + toBeUpdatedTwoOne[i].getStartX() + "           " + toBeUpdatedTwoOne[i].getEndX()); 
+                    
+                    for(int j = 0; j < 65; j++){
+                            double startX = toBeUpdatedTwoOne[i].getStartX();
+                            double endX = toBeUpdatedTwoOne[i].getEndX();
+                            
+                            if(startX == (columnStatesGroupTwoList.get(j).getX() + 5)|| endX == (columnStatesGroupTwoList.get(j).getX() + 5)){
+                                System.out.println("Made it here");
+                                columnStatesGroupTwoList.get(j).setState(twoOneState);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+

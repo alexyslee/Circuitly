@@ -241,14 +241,15 @@ public class stateTracker {
     }
     public void getConnectedWires(int n, int state){
         int states = state;
-        z = 1;
         if(n < wireList.size()){
             for(int i = 0; i < wireList.size(); i++){
 
                 if(connectedLines[n].getStartX() == wireList.get(i).getStartX() && connectedLines[n].getEndX() == wireList.get(i).getEndX()){
 
                 }
-                else if(connectedLines[n].getStartX() == wireList.get(i).getStartX() ^ connectedLines[n].getStartX() == wireList.get(i).getEndX() ^ connectedLines[n].getEndX() == wireList.get(i).getEndX() ^ connectedLines[n].getEndX() == wireList.get(i).getStartX()){
+                else if(connectedLines[n].getStartX() == wireList.get(i).getStartX() ^ connectedLines[n].getStartX() == wireList.get(i).getEndX() 
+                        ^ connectedLines[n].getEndX() == wireList.get(i).getEndX() ^ connectedLines[n].getEndX() == wireList.get(i).getStartX()){
+                    
                     connectedLines[z] = wireList.get(i);
                     z++;
                 }
@@ -302,7 +303,7 @@ public class stateTracker {
     public ArrayList <stateTracker.columnCreationGround> returnGround(){
         return groundList;
     }
-    ArrayList <stateTracker.columnCreationButtons> returnButtons(){
+    public ArrayList <stateTracker.columnCreationButtons> returnButtons(){
         return buttonsList;
     }
     
