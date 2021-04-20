@@ -205,15 +205,17 @@ public class stateTracker {
     }
     
     public void setStateFromWires(){
-        for(int i = 0; i < wireList.size(); i++){
-            startX = wireList.get(i).getStartX() - 5;
-            startY = wireList.get(i).getStartY();
-            endX = wireList.get(i).getEndX() - 5;
-            endY = wireList.get(i).getEndY();
-            
-            findFirstColumnState();
-            findSecondColumnState();
-            calculateState();
+        if(wireList != null){
+            for(int i = 0; i < wireList.size(); i++){
+                startX = wireList.get(i).getStartX() - 5;
+                startY = wireList.get(i).getStartY();
+                endX = wireList.get(i).getEndX() - 5;
+                endY = wireList.get(i).getEndY();
+
+                findFirstColumnState();
+                findSecondColumnState();
+                calculateState();
+        }
         }
     }
     public void setStateFromButton(int states, double x, ArrayList <Line> createWireList, ArrayList <stateTracker.columnCreationButtons> button){
@@ -456,7 +458,35 @@ public class stateTracker {
             return yButtonCoordinates;
         }
     }    
-    
+    public class columnCreationOutputs{
+        int state;
+        double xCoord = 0;
+        
+        public void setState(int states){
+            state = states;
+        }
+        
+        public int getState(){
+            return state;
+        }
+        
+        public void setX(int i){
+            if(i == 0){
+                xCoord = 730;
+            }
+            else{
+                xCoord = 730 + 35 * i;
+            }
+        }
+        public double getX(){
+            return xCoord;
+        }
+        
+        public double[] getY(){
+            double[] yButtonCoordinates = new double[] {550, 565};
+            return yButtonCoordinates;
+        }
+    } 
     }
 
     

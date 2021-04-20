@@ -21,6 +21,7 @@ public class chipTracker {
     
     ArrayList <stateTracker.columnCreationGroupOne> columnStatesGroupOneList;
     ArrayList <stateTracker.columnCreationGroupTwo> columnStatesGroupTwoList;
+    ArrayList <stateTracker.columnCreationOutputs> outputs;
     
     stateTracker.columnCreationGroupOne[] compareList = new stateTracker.columnCreationGroupOne[7];
     stateTracker.columnCreationGroupTwo[] compareListTwo = new stateTracker.columnCreationGroupTwo[7];
@@ -43,10 +44,12 @@ public class chipTracker {
     public void getInformation(ArrayList <stateTracker.columnCreationGroupOne> groupOne, ArrayList <stateTracker.columnCreationGroupTwo> groupTwo,
             ArrayList <createChip.createAndChip> andChip, ArrayList <createChip.createNandChip> nandChip, ArrayList <createChip.createOrChip> orChip,
             ArrayList <createChip.createXorChip> xorChip, ArrayList <createChip.createNorChip> norChip, ArrayList <createChip.createNotChip> notChip,
-            ArrayList <createChip.createAndFourChip> andFourChip, ArrayList <createChip.createNandFourChip> nandFourChip, ArrayList <Line> createWireList){
+            ArrayList <createChip.createAndFourChip> andFourChip, ArrayList <createChip.createNandFourChip> nandFourChip, ArrayList <Line> createWireList, 
+            ArrayList <stateTracker.columnCreationOutputs> outs){
         
         columnStatesGroupOneList = groupOne;
         columnStatesGroupTwoList = groupTwo;
+        outputs = outs;
         
         wireList = createWireList;
         
@@ -777,8 +780,7 @@ public class chipTracker {
         if(n < wireList.size()){
             for(int i = 0; i < wireList.size(); i++){
                 if((toBeUpdatedTwoOne[n].getStartX() == wireList.get(i).getStartX() ||  toBeUpdatedTwoOne[n].getStartX() == wireList.get(i).getEndX() || 
-                        toBeUpdatedTwoOne[n].getEndX() == wireList.get(i).getEndX() || toBeUpdatedTwoOne[n].getEndX() == wireList.get(i).getStartX()) && 
-                        (toBeUpdatedTwoOne[n].getStartX() != wireList.get(i).getStartX() && toBeUpdatedTwoOne[n].getEndX() != wireList.get(i).getEndX())){
+                        toBeUpdatedTwoOne[n].getEndX() == wireList.get(i).getEndX() || toBeUpdatedTwoOne[n].getEndX() == wireList.get(i).getStartX())){
                     double tempStart = wireList.get(i).getStartX();
                     double tempEnd = wireList.get(i).getEndX();
                     
@@ -820,10 +822,25 @@ public class chipTracker {
                             double startX = toBeUpdatedTwoOne[i].getStartX();
                             double endX = toBeUpdatedTwoOne[i].getEndX();
                             
-                            if(startX == (columnStatesGroupTwoList.get(j).getX() + 5)|| endX == (columnStatesGroupTwoList.get(j).getX() + 5)){
-                                System.out.println("Made it here");
-                                columnStatesGroupTwoList.get(j).setState(twoOneState);
+                            double startY = toBeUpdatedTwoOne[i].getStartY();
+                            double endY = toBeUpdatedTwoOne[i].getEndY();
+                            
+                            if((startY >= 245 && startY <= 305) || (endY >= 245 && endY <= 305)){
+                                if(startX == (columnStatesGroupTwoList.get(j).getX() + 5)|| endX == (columnStatesGroupTwoList.get(j).getX() + 5)){
+                                    columnStatesGroupTwoList.get(j).setState(twoOneState);
+                                    System.out.println(columnStatesGroupTwoList.get(j).getState());
+                                }
                             }
+                            
+                            if(startY >= 550|| endY >= 550){
+                                if(j < outputs.size()){
+                                if(startX == (outputs.get(j).getX() + 5)|| endX == (outputs.get(j).getX() + 5)){
+                                    outputs.get(j).setState(twoOneState);
+                                    System.out.println(outputs.get(j).getState());
+                                }
+                                }
+                            }
+                            
                         }
                     }
                 }
