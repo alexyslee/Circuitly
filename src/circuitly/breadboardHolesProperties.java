@@ -1,5 +1,9 @@
 package circuitly;
 
+/**
+ * This creates breadboard groups that are able to be updated
+ */
+
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -15,7 +19,8 @@ public class breadboardHolesProperties {
     Rectangle[] breadboardGroundHoles = new Rectangle[65];
     Rectangle[] breadboardButtonHoles = new Rectangle[16];
     Rectangle[] breadboardButtonHoles2 = new Rectangle[16];
-    
+
+// sets the properties for every square    
     private Rectangle breadboardSqaures(int x, int y){
         Rectangle rec = new Rectangle();
         rec.setX(x);
@@ -25,7 +30,7 @@ public class breadboardHolesProperties {
         rec.setFill(Color.LIGHTGREY);
         return rec;
     }
-    
+//  power square
     private Rectangle breadboardPowerSqaures(int x){
         Rectangle rec = new Rectangle();
         rec.setX(x);
@@ -35,7 +40,7 @@ public class breadboardHolesProperties {
         rec.setFill(Color.LIGHTPINK);
         return rec;
     }
-    
+// ground squares    
     private Rectangle breadboardGroundSqaures(int x){
         Rectangle rec = new Rectangle();
         rec.setX(x);
@@ -57,7 +62,6 @@ public class breadboardHolesProperties {
     public Rectangle[] returnButtonHoles2(){
         return breadboardButtonHoles2;
     }
-    
     
     public Rectangle[] returnPowerRow(){
         return breadboardPowerHoles;

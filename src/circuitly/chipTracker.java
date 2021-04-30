@@ -1,5 +1,9 @@
 package circuitly;
 
+/**
+ * chipTracker calculates the output of the chip every time the breadboard updates and returns the updated column states. 
+ */
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -87,7 +91,8 @@ public class chipTracker {
             getNandFourColumns();
         }
     }
-    
+
+// all of these get the columns that need to be updated with tehir specific logic    
     public void getAndColumns(){
         for(int i = 0; i < andChipList.size(); i++){
             int k = 0;
@@ -296,7 +301,7 @@ public class chipTracker {
             }
         }
     }
-    
+// all of these set the columns that need to be updated with tehir specific logic        
     public void setAndChips(){
         if(compareList[0].getState() == 1){
             if(compareList[1].getState() == 1 && compareList[2].getState() == 1){
@@ -696,7 +701,8 @@ public class chipTracker {
             }
         }
     }
-    
+
+// if there are wires conntected to the new updated wires update those as well in the first group of breadbaord holes  
     public void getConnectedColumnsOneOne(){
         double check = wiresToUpdateGroupOneOne[0].getX() + 5;
 //        System.out.println("Column X:   " + check);
@@ -765,7 +771,8 @@ public class chipTracker {
             }
         }
     }
-    
+
+// if there are wires conntected to the new updated wires update those as well in the second group of breadbaord holes     
     public void getConnectedColumnsTwoOne(){
         double check = wiresToUpdateGroupTwoOne[0].getX() + 5;
         for(int i = 0; i < wireList.size(); i++){

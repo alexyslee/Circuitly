@@ -1,5 +1,9 @@
 package circuitly;
 
+/**
+ * This updates the button state and also updates the LED
+ */
+
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -18,7 +22,8 @@ public class outputButtons {
         
         return circ;
     }
-    
+
+// find wire connected to the button    
     public void getMatchingWire(ArrayList <stateTracker.columnCreationPower> power, 
             ArrayList <stateTracker.columnCreationGround> ground, 
             ArrayList <stateTracker.columnCreationGroupOne> groupOne, 
@@ -115,7 +120,8 @@ public class outputButtons {
         }
         
     }
-    
+
+// set LEDs to the correct state    
     public void updateLed(int state, double location, Circle[] outputLed){
         updated = outputLed;
         double locationNew = location + 5;
@@ -130,18 +136,17 @@ public class outputButtons {
             }
         }
     }
-    
+// return LED state    
     public Circle[] returnUpdatedLed(){
         return updated;
     }
-    
+// updates with the chip   
     public Circle[] updateWithChip(ArrayList <stateTracker.columnCreationOutputs> outs, Circle[] outputLed){
         updated = outputLed;
         
         for(int i = 0; i < 8; i++){
             double location = xAxis[i];
                 if((location + 5) == updated[i].getCenterX()){
-                    System.out.println("Yes");
             }
         }
     return updated;

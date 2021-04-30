@@ -3,6 +3,12 @@ package circuitly;
 import java.util.ArrayList;
 import javafx.scene.shape.Line;
 
+/**
+ * 
+ * @author lexylee
+ * stateTracker manages the states in breadboard columns
+ */
+
 public class stateTracker {
     
     ArrayList <stateTracker.columnCreationPower> powerList;
@@ -25,6 +31,18 @@ public class stateTracker {
     
     Line[] connectedLines = new Line[1000];
     
+    /**
+     * getNeededInformation passes in all the information needed to update the the column states in the breadboard as well as calls other methods to start the process
+     * <p>
+     * 
+     * @param locations -- endpoints of wire
+     * @param power -- power columns
+     * @param ground -- ground columns
+     * @param groupOne -- groupOne columns
+     * @param groupTwo -- groupTwo columns
+     * @param createWireList -- list of all the drawn wires
+     * @param button -- the current state of the button
+     */
     public void getNeededInformation(double[] locations, ArrayList <stateTracker.columnCreationPower> power, 
             ArrayList <stateTracker.columnCreationGround> ground, 
             ArrayList <stateTracker.columnCreationGroupOne> groupOne, 
@@ -38,7 +56,9 @@ public class stateTracker {
         buttonsList = button;
     }
     
-    
+    /**
+     * Gets the state of the first endpoint's column
+     */
     public void findFirstColumnState(){
         if(startY == 105.0){
             for(int i = 0; i < 65; i++){
@@ -91,6 +111,9 @@ public class stateTracker {
         }
             
     }
+    /**
+     * Gets the state of the second endpoint's column
+     */
     public void findSecondColumnState(){
         if(endY == 105.0){
             for(int i = 0; i < 65; i++){
@@ -141,6 +164,9 @@ public class stateTracker {
         }
         
     }
+    /**
+    * Calculates the state of the two columns
+    */
     public void calculateState(){
        if(storeFirstColumnState == 4 || storeSecondColumnState == 4){
            setState = 4;
@@ -158,7 +184,9 @@ public class stateTracker {
        setFirstColState();
        setSecondColState();
     }
-    
+    /**
+     * Sets the state of the first endpoint's column
+     */
     public void setFirstColState(){
         switch(setFirstGroup){
             case 0:
@@ -181,6 +209,9 @@ public class stateTracker {
                 break;
         }
     }
+    /**
+     * Sets the state of the second endpoint's column
+     */
     public void setSecondColState(){
         switch(setSecondGroup){
             case 0:
@@ -204,6 +235,9 @@ public class stateTracker {
         }
     }
     
+    /**
+     * Gets the state of the wire from the button rather than the current state of the columns at the endpoints
+     */
     public void setStateFromWires(){
         if(wireList != null){
             for(int i = 0; i < wireList.size(); i++){
@@ -218,6 +252,9 @@ public class stateTracker {
         }
         }
     }
+    /**
+     * Sets the the states
+     */
     public void setStateFromButton(int states, double x, ArrayList <Line> createWireList, ArrayList <stateTracker.columnCreationButtons> button){
         buttonsList = button; 
         wireList = createWireList;
@@ -241,6 +278,9 @@ public class stateTracker {
                 }
             }
     }
+    /**
+     * Finds what wires get updated when a button is pressed
+     */
     public void getConnectedWires(int n, int state){
         int states = state;
         if(n < wireList.size()){
@@ -292,6 +332,9 @@ public class stateTracker {
         }
     }
     
+    /**
+     * All return statements are returned according the name so returnUpdatedPowerRow returns the column states for the power ow
+     */
     
     public ArrayList <stateTracker.columnCreationPower> returnUpdatedPowerRow(){
         return powerList;
@@ -308,6 +351,10 @@ public class stateTracker {
     public ArrayList <stateTracker.columnCreationButtons> returnButtons(){
         return buttonsList;
     }
+    
+    /**
+     * Each classes defines a state method that can be updated
+     */
     
     public class columnCreationPower{
         double xCoord = 0;

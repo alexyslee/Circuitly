@@ -1,5 +1,11 @@
 package circuitly;
 
+/**
+ * 
+ * @author lexylee
+ * This is the main class for the file here we create the User Interface components
+ */
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
@@ -978,6 +984,7 @@ public class CircuitTest extends Application{
         
         pane.getChildren().addAll(andChip, nandChip, orChip, xorChip, norChip, notChip, andFourChip, nandFourChip);
 
+// manages point view and wire view        
         Image pointView = new Image("file:images/point.png");
         Image wireView = new Image("file:images/wire.png");
         ImageView view = new ImageView();
@@ -1007,6 +1014,7 @@ public class CircuitTest extends Application{
             } 
         });
         
+// toggles between delete and draw        
         Image deleteMode = new Image("file:images/delete.png");
         Image drawMode = new Image("file:images/draw.png");
         ImageView mode = new ImageView();
@@ -1026,6 +1034,7 @@ public class CircuitTest extends Application{
                 }
             } 
         });
+
 // OUTPUTS
         for(int i = 0; i < 8; i++){
             outputButtons outs = new outputButtons();

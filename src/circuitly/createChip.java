@@ -5,6 +5,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * 
+ * @author lexylee
+ * 
+ * When createChip creates an event handler and Image view to be used in the next classes
+ * <p>
+ * All of the other classes create chips associated with their class name so createAndChip creates an and chip
+ */
+
 public class createChip {
     eventHandling handled = new eventHandling();
     ImageView iv = new ImageView();
